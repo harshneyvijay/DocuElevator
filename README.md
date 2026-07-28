@@ -61,6 +61,4 @@ DocuElevator/
 | :--- | :--- |
 | `open index.html` | Launches the application in your default web browser. |
 
-## License
 
-This project is open-source. Please refer to the repository for any specific licensing information provided in the `LICENSE` file. If no license file is present, standard open-source copyright practices apply.
