@@ -58,6 +58,6 @@ http://localhost:5500
 
 DocuElevator uses:
 
-- PDF.js for PDF rendering and text extraction
-- PDF-Lib for PDF creation and manipulation
-- 
+- PDF.js: PDF rendering and text extraction
+- PDF-Lib: PDF creation and manipulation
+
