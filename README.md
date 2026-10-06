@@ -1,6 +1,6 @@
 # DocuElevator
 
-A lightweight, browser-based utility tool for previewing, processing, converting, and managing documents. Everything is handled fully locally in your browser. 
+A lightweight, browser-based utility designed to streamline document management and interaction. Built with a clean separation of concerns, this project provides a responsive interface and robust client-side logic to handle document-related tasks efficiently.
 
 ## Features
 
