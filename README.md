@@ -12,7 +12,7 @@ A lightweight, browser-based utility designed to streamline document management 
 - Text and image preview
 - Multi-file workspace
 - Document statistics
-- Search
+- Search & Retrieve
 - Dark mode
 - Drag-and-drop uploads
 
