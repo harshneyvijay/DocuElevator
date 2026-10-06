@@ -1,729 +1,467 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuElevator - Transform Your Documents with AI</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="script.js" defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.11.0/dist/pptxgen.bundle.js"></script>
+    <title>DocuElevator: Local Document Toolkit</title>
+    <meta
+      name="description"
+      content="A privacy-first browser document utility for inspecting, extracting and transforming documents."
+    />
 
-</head>
-<body class="light-mode">
-    <header>
-        <nav class="navbar">
-            <div class="container">
-                <nav class="navbar">
-                    <a href="#" class="logo">
-                        <div class="logo-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        DocuElevator
-                    </a>
-            <div class="nav-links">
-                <a href="#about-us">About Us</a>
-                <a href="#features">Features</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#faq">FAQ</a>
-            </div>
-            <div class="actions">
-                <button class="theme-toggle" id="themeToggle">
-                    <i class="fa-solid fa-moon"></i>
-                </button>
-                <button class="btn btn-primary">Get Started</button>
-            </div>
-            <div class="menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Science+Gothic:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- PDF.js -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs"
+      type="module"
+    ></script>
+
+    <!-- PDF-Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark">D</div>
+
+          <div>
+            <h1>DocuElevator</h1>
+            <span>Document toolkit</span>
+          </div>
+        </div>
+
+        <nav class="sidebar-nav">
+          <button class="nav-item active" data-view="overview">
+            <span class="nav-icon">▦</span>
+            Overview
+          </button>
+
+          <button class="nav-item" data-view="text">
+            <span class="nav-icon">≡</span>
+            Extract Text
+          </button>
+
+          <button class="nav-item" data-view="search">
+            <span class="nav-icon">⌕</span>
+            Search
+          </button>
+
+          <button class="nav-item" data-view="stats">
+            <span class="nav-icon">◫</span>
+            Statistics
+          </button>
         </nav>
-    </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <h1>Transform Your Documents </h1>
-                <p>DocuElevator helps you extract insights, summarize content, and enhance productivity with our powerful document processing platform.</p>
-                <div class="hero-buttons">
-                    <button class="btn btn-light">Learn More</button>
-                    <button class="btn btn-outline">Try for Free</button>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="image1.jpg" alt="AI Document Processing">
-            </div>
-        </div>
-    </section>
+        <div class="sidebar-bottom">
+          <div class="privacy-card">
+            <div class="privacy-dot"></div>
 
-    <section class="stats">
-        <div class="stat-item">
-            <h2>1.5k+</h2>
-            <p>Documents Processed</p>
-        </div>
-        <div class="stat-item">
-            <h2>5,000+</h2>
-            <p>Happy Users</p>
-        </div>
-        <div class="stat-item">
-            <h2>98%</h2>
-            <p>Accuracy Rate</p>
-        </div>
-        <div class="stat-item">
-            <h2>75%</h2>
-            <p>Time Saved</p>
-        </div>
-    </section>
+            <div>
+              <strong>Local processing</strong>
+              <p>Your files stay in this browser.</p>
+            </div>
+          </div>
 
-    <section id="about-us" class="mission">
-        <div class="container">
-            <div class="mission-content">
-                <div class="mission-text">
-                    <h2>Discover DocuElevator's Mission</h2>
-                    <p>At DocuElevator, we strive to provide an intuitive platform for transforming documents, enhancing collaboration and presentation quality. Our mission is to empower organizations and individuals with an exceptional document solution that saves time and boosts productivity.</p>
-                </div>
-                <div class="mission-image">
-                    <img src="image2.jpg" alt="DocuElevator Vision">
-                </div>
-            </div>
+          <button class="clear-button" id="clearWorkspace">
+            Clear workspace
+          </button>
         </div>
-    </section>
+      </aside>
 
-    <section id="how-it-works" class="how-it-works">
-        <div class="container">
-            <h2>How It Works</h2>
-            <p>Transform your documents in three simple steps</p>
-            
-            <div class="steps">
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                    </div>
-                    <h3>Step 1: Upload</h3>
-                    <p>Easily upload your documents to our secure platform.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-magic"></i>
-                    </div>
-                    <h3>Step 2: Transform</h3>
-                    <p>Our AI analyzes and transforms your documents.</p>
-                </div>
-                <div class="step">
-                    <div class="step-icon">
-                        <i class="fas fa-download"></i>
-                    </div>
-                    <h3>Step 3: Download</h3>
-                    <p>Download your enhanced documents instantly.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+      <!-- MAIN -->
+      <main class="main-content">
+        <!-- TOPBAR -->
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">DOCUMENT WORKSPACE</p>
+            <h2 id="pageTitle">Overview</h2>
+          </div>
 
-    <section id="features" class="features">
-        <div class="container">
-            <h2>Powerful Features</h2>
-            <p>Explore the key features that make DocuElevator stand out</p>
-            
-            <div class="feature-cards">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-sync"></i>
-                    </div>
-                    <h3>Smart Document Conversion</h3>
-                    <p>Convert between different document formats with AI-powered precision that preserves formatting and layout.</p>
-                    <button class="btn btn-secondary">Learn More</button>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-pen"></i>
-                    </div>
-                    <h3>Customize & Enhance</h3>
-                    <p>Enhance the visual appeal of your documents with our easy-to-use styling and transformation tools.</p>
-                    <button class="btn btn-secondary">Learn More</button>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-share-alt"></i>
-                    </div>
-                    <h3>Seamless Sharing</h3>
-                    <p>Share your enhanced documents with colleagues and clients or seamlessly access across devices.</p>
-                    <button class="btn btn-secondary">Learn More</button>
-                </div>
-            </div>
-        </div>
-    </section>
+          <div class="topbar-actions">
+            <button class="icon-button" id="themeToggle" title="Toggle theme">
+              ☼
+            </button>
 
-    <section id="why-choose" class="why-choose">
-        <div class="container">
-            <div class="why-choose-content">
-                <div class="why-choose-text">
-                    <h2>Why Choose DocuElevator?</h2>
-                    <p>DocuElevator offers a suite of benefits designed to streamline your document workflow. From effortless conversion to enhanced collaboration, our platform delivers outstanding results in record time. With several powerful features, DocuElevator can transform the way you work with documents.</p>
-                    
-                    <ul class="benefits-list">
-                        <li><i class="fas fa-check-circle"></i> Save up to 75% of document processing time</li>
-                        <li><i class="fas fa-check-circle"></i> Greater formatting accuracy across conversions</li>
-                        <li><i class="fas fa-check-circle"></i> Enhance document appearance with AI suggestions</li>
-                        <li><i class="fas fa-check-circle"></i> Secure cloud storage for your valuable files</li>
-                    </ul>
-                </div>
-                <div class="why-choose-image">
-                    <img src="ss1.jpg" alt="DocuElevator Benefits">
-                </div>
-            </div>
-        </div>
-    </section>
+            <button class="primary-button" id="openFileButton">
+              + Open document
+            </button>
 
-    <section id="pricing" class="pricing">
-        <div class="container">
-            <h2>Pricing Plans</h2>
-            <p>Choose the perfect plan for your document needs</p>
-            
-            <div class="pricing-cards">
-                <div class="pricing-card">
-                    <h3>Basic Plan</h3>
-                    <p class="description">Ideal for casual users needing occasional conversions</p>
-                    <div class="price">$9.99/month</div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Up to 20 documents monthly</li>
-                        <li><i class="fas fa-check"></i> Basic conversion options</li>
-                        <li><i class="fas fa-check"></i> Email support</li>
-                        <li><i class="fas fa-check"></i> 7-day history</li>
-                    </ul>
-                    <button class="btn btn-secondary plan-btn">Select Plan</button>
-                </div>
-                
-                <div class="pricing-card popular">
-                    <div class="popular-badge">Most Popular</div>
-                    <h3>Pro Plan</h3>
-                    <p class="description">Perfect for professionals requiring unlimited conversions</p>
-                    <div class="price">$19.99/month</div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Unlimited conversions</li>
-                        <li><i class="fas fa-check"></i> Advanced editing tools</li>
-                        <li><i class="fas fa-check"></i> Priority support</li>
-                        <li><i class="fas fa-check"></i> 30-day history</li>
-                    </ul>
-                    <button class="btn btn-secondary plan-btn">Select Plan</button>
-                </div>
-                
-                <div class="pricing-card">
-                    <h3>Enterprise Plan</h3>
-                    <p class="description">Custom solution for businesses with unique needs</p>
-                    <div class="contact-price">Contact us for pricing</div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Custom integrations</li>
-                        <li><i class="fas fa-check"></i> Dedicated account manager</li>
-                        <li><i class="fas fa-check"></i> 24/7 premium support</li>
-                        <li><i class="fas fa-check"></i> 90-day history</li>
-                    </ul>
-                    <button class="btn btn-secondary plan-btn">Contact Sales</button>
-                </div>
-            </div>
-        </div>
-    </section>
+            <input
+              type="file"
+              id="fileInput"
+              accept=".pdf,.png,.jpg,.jpeg,.webp,.txt"
+              hidden
+            />
+          </div>
+        </header>
 
-    <section id="faq" class="faq">
-        <div class="container">
-            <h2>Frequently Asked Questions</h2>
-            <p>Find answers to common questions about DocuElevator</p>
-            
-            <div class="faq-accordion">
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>What types of documents can I convert with DocuElevator?</h3>
-                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>DocuElevator supports a wide range of document formats including PDF, Word (DOC, DOCX), PowerPoint (PPT, PPTX), Excel (XLS, XLSX), Images (JPG, PNG), and many more formats for seamless conversion.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>How secure is my data with DocuElevator?</h3>
-                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>We take security seriously. All uploaded files are encrypted in transit and at rest. Our servers are protected with enterprise-grade security measures, and we never share your documents with third parties. Files are automatically deleted after processing according to your plan's retention period.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Can I customize the appearance of my converted documents?</h3>
-                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Absolutely! DocuElevator offers extensive customization options. You can select themes, adjust colors, modify fonts, and more. Our AI will even suggest improvements to enhance your document's visual appeal and readability.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>How long does the conversion process take?</h3>
-                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Most conversions are completed within seconds to a few minutes, depending on the document size and complexity. Larger documents or batch conversions may take slightly longer, but our system is optimized for speed without sacrificing quality.</p>
-                    </div>
-                </div>
-                
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <h3>Do I need to install any software to use DocuElevator?</h3>
-                        <span class="icon"><i class="fas fa-chevron-down"></i></span>
-                    </div>
-                    <div class="faq-answer">
-                        <p>No, DocuElevator is a cloud-based platform that works entirely in your browser. There's no need to install any software or plugins. This makes it accessible from any device with an internet connection, whether you're using a desktop, laptop, tablet, or smartphone.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <!-- EMPTY STATE -->
+        <section class="empty-state" id="emptyState">
+          <div class="drop-zone" id="dropZone">
+            <div class="upload-icon">↑</div>
 
-    <section class="call-to-action">
-        <div class="container">
-            <h2>Ready to Transform Your Documents?</h2>
-            <p>Join thousands of satisfied users and experience the power of DocuElevator today</p>
-            <button class="btn btn-primary cta-button">Get Started Now</button>
-        </div>
-    </section>
+            <h3>Drop a document here</h3>
 
-    <section id="advanced-features" class="advanced-features">
-        <div class="container">
-            <h2>How It Works</h2>
-            <p>Follow these simple features to get the most out of DocuElevator</p>
-            
-            <div class="workflow-tabs">
-                <div class="tabs-header">
-                    <div class="tab active" data-tab="uploading">Uploading</div>
-                    <div class="tab" data-tab="converting">Converting</div>
-                    <div class="tab" data-tab="sharing">Sharing & Collaboration</div>
-                </div>
-                
-                <div class="tabs-content">
-                    <div class="tab-content active" id="uploading">
-                        <div class="feature-step">
-                            <h3>Upload Your Document</h3>
-                            <p>Click the "Upload" button and select your PDF file from your device.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Choose Output Format</h3>
-                            <p>Select "PowerPoint" as your desired output format from the dropdown menu.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Start Conversion</h3>
-                            <p>Click "Convert Now" and wait for the process to complete.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Download or Edit</h3>
-                            <p>Download your converted file or use our editor to make changes.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-content" id="converting">
-                        <div class="feature-step">
-                            <h3>PDF to PowerPoint Conversion</h3>
-                            <p>Our AI technology extracts content, images, and formatting from your PDF.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Open Document Editor</h3>
-                            <p>After conversion, click "Edit Document" to access customization tools.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Choose a Theme</h3>
-                            <p>Browse through available themes and select the one that fits your needs.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Customize Elements</h3>
-                            <p>Edit text, change fonts, adjust layouts, and modify colors as needed.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="tab-content" id="sharing">
-                        <div class="feature-step">
-                            <h3>Save Your Document</h3>
-                            <p>Once you're satisfied with your presentation, save it to your account.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Share with Collaborators</h3>
-                            <p>Click "Share" and enter email addresses of your team members.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Set Permissions</h3>
-                            <p>Choose whether collaborators can view, comment, or edit the document.</p>
-                        </div>
-                        <div class="feature-step">
-                            <h3>Track Changes</h3>
-                            <p>Monitor edits and comments in real-time with our collaboration tools.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <p>PDF, PNG, JPG, WEBP or TXT files</p>
 
-    <section id="converter" class="converter">
-        <div class="container">
-            <h2>PDF to PowerPoint Converter</h2>
-            <p>Transform your PDF documents into editable PowerPoint presentations</p>
-            
-            <div class="converter-form">
-                <div id="dropArea" class="drop-area">
-                    <i class="fas fa-cloud-upload-alt"></i>
-                    <h3>Drag & Drop Files Here</h3>
-                    <p>or</p>
-                    <label for="fileInput" class="btn btn-secondary">Browse Files</label>
-                    <input type="file" id="fileInput" accept=".pdf" hidden>
-                    <p class="file-info">Supported format: PDF</p>
-                </div>
-                
-                <div class="conversion-options">
-                    <div class="option-group">
-                        <label for="outputFormat">Output Format</label>
-                        <select id="outputFormat">
-                            <option value="pptx" selected>PowerPoint (PPTX)</option>
-                            <option value="ppt">PowerPoint 97-2003 (PPT)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="theme">Presentation Theme</label>
-                        <select id="theme">
-                            <option value="professional">Professional</option>
-                            <option value="creative">Creative</option>
-                            <option value="minimal" selected>Minimal</option>
-                            <option value="corporate">Corporate</option>
-                            <option value="academic">Academic</option>
-                        </select>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="enhanceVisuals">Enhance Visuals</label>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="enhanceVisuals" checked>
-                            <span class="slider"></span>
-                        </div>
-                    </div>
-                    
-                    <div class="option-group">
-                        <label for="aiSuggestions">AI Content Suggestions</label>
-                        <div class="toggle-switch">
-                            <input type="checkbox" id="aiSuggestions" checked>
-                            <span class="slider"></span>
-                        </div>
-                    </div>
-                </div>
-                
-                <button id="convertBtn" class="btn btn-primary convert-btn" disabled>Convert to PowerPoint</button>
-                
-                <div id="conversionProgress" class="conversion-progress hidden">
-                    <div class="progress-bar">
-                        <div class="progress-fill"></div>
-                    </div>
-                    <p class="progress-text">Processing... <span id="progressPercent">0%</span></p>
-                </div>
-                
-                <div id="conversionResult" class="conversion-result hidden">
-                    <div class="result-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <h3>Conversion Complete!</h3>
-                    <p>Your PDF has been successfully converted to PowerPoint</p>
-                    <div class="result-actions">
-                        <button id="downloadBtn" class="btn btn-primary">Download Presentation</button>
-                        <button id="editBtn" class="btn btn-secondary">Edit Presentation</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            <button class="secondary-button" id="browseButton">
+              Browse files
+            </button>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Explore</h3>
-                    <ul>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#pricing">Pricing</a></li>
-                        <li><a href="#faq">FAQ</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Company</h3>
-                    <ul>
-                        <li><a href="#about-us">About Us</a></li>
-                        <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="#blog">Blog</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><a href="#help-center">Help Center</a></li>
-                        <li><a href="#tutorials">Tutorials</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h3>Stay Updated</h3>
-                    <p>Subscribe to our newsletter for the latest updates</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Your email address">
-                        <button type="submit" class="btn btn-secondary">Subscribe</button>
-                    </form>
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
+            <div class="local-note">
+              <span>●</span>
+              Files are processed locally
             </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2023 DocuElevator. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+          </div>
 
-    <!-- Modal for Document Editor -->
-    <div id="editorModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Presentation Editor</h2>
-                <span class="close-modal">&times;</span>
+          <div class="feature-row">
+            <div class="feature">
+              <span>01</span>
+              <div>
+                <strong>Inspect</strong>
+                <p>View document details and pages.</p>
+              </div>
             </div>
-            <div class="modal-body">
-                <div class="editor-toolbar">
-                    <div class="toolbar-group">
-                        <button class="tool-btn" title="Add Slide"><i class="fas fa-plus"></i></button>
-                        <button class="tool-btn" title="Delete Slide"><i class="fas fa-trash"></i></button>
-                    </div>
-                    <div class="toolbar-group">
-                        <button class="tool-btn" title="Text Formatting"><i class="fas fa-font"></i></button>
-                        <button class="tool-btn" title="Insert Image"><i class="fas fa-image"></i></button>
-                        <button class="tool-btn" title="Insert Chart"><i class="fas fa-chart-bar"></i></button>
-                    </div>
-                    <div class="toolbar-group">
-                        <button class="tool-btn" title="Theme Options"><i class="fas fa-palette"></i></button>
-                        <button class="tool-btn" title="Layout Options"><i class="fas fa-th-large"></i></button>
-                    </div>
+
+            <div class="feature">
+              <span>02</span>
+              <div>
+                <strong>Extract</strong>
+                <p>Pull readable text directly in-browser.</p>
+              </div>
+            </div>
+
+            <div class="feature">
+              <span>03</span>
+              <div>
+                <strong>Export</strong>
+                <p>Download extracted content instantly.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WORKSPACE -->
+        <section class="workspace hidden" id="workspace">
+          <!-- DOCUMENT HEADER -->
+          <div class="document-header">
+            <div class="document-info">
+              <div class="document-file-icon" id="documentIcon">PDF</div>
+
+              <div>
+                <h3 id="documentName">document.pdf</h3>
+
+                <div class="document-meta">
+                  <span id="documentType">PDF</span>
+                  <span>•</span>
+                  <span id="documentSize">0 KB</span>
+                  <span>•</span>
+                  <span id="documentPages">0 pages</span>
                 </div>
-                <div class="editor-main">
-                    <div class="slides-panel">
-                        <h3>Slides</h3>
-                        <div class="slide-thumbnails">
-                            <div class="slide-thumbnail active">
-                                <img src="images/slide1.png" alt="Slide 1">
-                                <span>1</span>
-                            </div>
-                            <div class="slide-thumbnail">
-                                <img src="images/slide2.png" alt="Slide 2">
-                                <span>2</span>
-                            </div>
-                            <div class="slide-thumbnail">
-                                <img src="images/slide3.png" alt="Slide 3">
-                                <span>3</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide-preview">
-                        <div class="presentation-slide">
-                            <h1 contenteditable="true">Your Presentation Title</h1>
-                            <p contenteditable="true">Click to edit this text. You can customize your presentation content here.</p>
-                        </div>
-                    </div>
-                    <div class="editing-panel">
-                        <h3>Properties</h3>
-                        <div class="property-group">
-                            <label>Text Color</label>
-                            <input type="color" value="#333333">
-                        </div>
-                        <div class="property-group">
-                            <label>Background Color</label>
-                            <input type="color" value="#ffffff">
-                        </div>
-                        <div class="property-group">
-                            <label>Font Family</label>
-                            <select>
-                                <option value="Arial" selected>Arial</option>
-                                <option value="Helvetica">Helvetica</option>
-                                <option value="Georgia">Georgia</option>
-                                <option value="Times New Roman">Times New Roman</option>
-                            </select>
-                        </div>
-                        <div class="property-group">
-                            <label>Font Size</label>
-                            <select>
-                                <option value="12">12px</option>
-                                <option value="14">14px</option>
-                                <option value="16" selected>16px</option>
-                                <option value="18">18px</option>
-                                <option value="24">24px</option>
-                                <option value="32">32px</option>
-                            </select>
-                        </div>
-                    </div>
+              </div>
+            </div>
+
+            <div class="document-actions">
+              <button class="secondary-button" id="downloadTextButton">
+                Download TXT
+              </button>
+
+              <button class="primary-button" id="printButton">Print</button>
+            </div>
+          </div>
+
+          <!-- CONTENT -->
+          <div class="content-grid">
+            <!-- MAIN PANEL -->
+            <section class="viewer-panel">
+              <!-- OVERVIEW VIEW -->
+              <div class="view active-view" id="overviewView">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">DOCUMENT PREVIEW</p>
+                    <h3>Preview</h3>
+                  </div>
+
+                  <div class="page-controls" id="pageControls">
+                    <button class="small-button" id="prevPage">←</button>
+
+                    <span id="pageIndicator"> 1 / 1 </span>
+
+                    <button class="small-button" id="nextPage">→</button>
+                  </div>
                 </div>
-                <div class="editor-actions">
-                    <button class="btn btn-outline">Cancel</button>
-                    <button class="btn btn-primary">Save Presentation</button>
+
+                <div class="preview-container" id="previewContainer">
+                  <div class="pdf-page-wrapper" id="pdfPageWrapper">
+                    <canvas id="pdfCanvas"></canvas>
+                  </div>
+
+                  <img
+                    id="imagePreview"
+                    class="image-preview hidden"
+                    alt="Document preview"
+                  />
+
+                  <pre id="txtPreview" class="txt-preview hidden"></pre>
                 </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal for Payment -->
-    <div id="paymentModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Complete Your Purchase</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <div class="payment-summary">
-                    <h3>Order Summary</h3>
-                    <div class="order-details">
-                        <div class="order-item">
-                            <span class="item-name">Selected Plan:</span>
-                            <span class="item-value" id="selectedPlanName">Pro Plan</span>
-                        </div>
-                        <div class="order-item">
-                            <span class="item-name">Billing Cycle:</span>
-                            <span class="item-value">Monthly</span>
-                        </div>
-                        <div class="order-item">
-                            <span class="item-name">Price:</span>
-                            <span class="item-value" id="selectedPlanPrice">$19.99/month</span>
-                        </div>
-                    </div>
+              </div>
+
+              <!-- TEXT VIEW -->
+              <div class="view" id="textView">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">TEXT EXTRACTION</p>
+                    <h3>Extracted text</h3>
+                  </div>
+
+                  <div class="text-actions">
+                    <button class="small-button wide" id="copyTextButton">
+                      Copy
+                    </button>
+
+                    <button class="small-button wide" id="cleanTextButton">
+                      Clean text
+                    </button>
+                  </div>
                 </div>
-                
-                <div class="payment-form">
-                    <h3>Payment Information</h3>
-                    <form id="checkoutForm">
-                        <div class="form-group">
-                            <label for="cardName">Name on Card</label>
-                            <input type="text" id="cardName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="cardNumber">Card Number</label>
-                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="expiryDate">Expiry Date</label>
-                                <input type="text" id="expiryDate" placeholder="MM/YY" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="cvv">CVV</label>
-                                <input type="text" id="cvv" placeholder="123" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="billingAddress">Billing Address</label>
-                            <input type="text" id="billingAddress" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" id="city" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="zipCode">ZIP Code</label>
-                                <input type="text" id="zipCode" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="country">Country</label>
-                            <select id="country" required>
-                                <option value="">Select Country</option>
-                                <option value="US">United States</option>
-                                <option value="CA">Canada</option>
-                                <option value="UK">United Kingdom</option>
-                                <option value="AU">Australia</option>
-                                <option value="IN">India</option>
-                                <option value="DE">Germany</option>
-                                <option value="FR">France</option>
-                            </select>
-                        </div>
-                    </form>
+
+                <div class="text-stats">
+                  <span>
+                    <strong id="wordCount">0</strong>
+                    words
+                  </span>
+
+                  <span>
+                    <strong id="charCount">0</strong>
+                    characters
+                  </span>
+
+                  <span>
+                    <strong id="lineCount">0</strong>
+                    lines
+                  </span>
+
+                  <span>
+                    <strong id="readingTime">0 min</strong>
+                    reading time
+                  </span>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline cancel-payment">Cancel</button>
-                <button class="btn btn-primary confirm-payment">Complete Payment</button>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Modal for Contact/Enquiry -->
-    <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Contact Us</h2>
-                <span class="close-modal">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p>We're here to help! Fill out the form below and our team will get back to you shortly.</p>
-                
-                <form id="contactForm">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" required>
+
+                <textarea
+                  id="extractedText"
+                  class="text-editor"
+                  placeholder="Extracted text will appear here..."
+                ></textarea>
+              </div>
+
+              <!-- SEARCH VIEW -->
+              <div class="view" id="searchView">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">DOCUMENT SEARCH</p>
+                    <h3>Find text</h3>
+                  </div>
+                </div>
+
+                <div class="search-box">
+                  <span>⌕</span>
+
+                  <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search inside this document..."
+                  />
+
+                  <span id="searchCount"> 0 results </span>
+                </div>
+
+                <div class="search-results" id="searchResults">
+                  <div class="search-empty">
+                    Search for a word or phrase to see matches.
+                  </div>
+                </div>
+              </div>
+
+              <!-- STATS VIEW -->
+              <div class="view" id="statsView">
+                <div class="panel-header">
+                  <div>
+                    <p class="eyebrow">DOCUMENT INSPECTOR</p>
+                    <h3>Statistics</h3>
+                  </div>
+                </div>
+
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <span>Pages</span>
+                    <strong id="statPages">—</strong>
+                  </div>
+
+                  <div class="stat-card">
+                    <span>Words</span>
+                    <strong id="statWords">—</strong>
+                  </div>
+
+                  <div class="stat-card">
+                    <span>Characters</span>
+                    <strong id="statCharacters">—</strong>
+                  </div>
+
+                  <div class="stat-card">
+                    <span>File size</span>
+                    <strong id="statSize">—</strong>
+                  </div>
+
+                  <div class="stat-card">
+                    <span>Reading time</span>
+                    <strong id="statReading">—</strong>
+                  </div>
+
+                  <div class="stat-card">
+                    <span>File type</span>
+                    <strong id="statType">—</strong>
+                  </div>
+                </div>
+
+                <div class="health-card">
+                  <div class="health-heading">
+                    <div class="health-icon">✓</div>
+
+                    <div>
+                      <strong>Document health</strong>
+                      <p>Basic browser-side checks</p>
                     </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" required>
+                  </div>
+
+                  <div class="health-list">
+                    <div>
+                      <span>✓</span>
+                      File readable
                     </div>
-                    <div class="form-group">
-                        <label for="company">Company Name (Optional)</label>
-                        <input type="text" id="company">
+
+                    <div>
+                      <span>✓</span>
+                      Local processing
                     </div>
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone">
+
+                    <div id="textHealth">
+                      <span>✓</span>
+                      Text extraction available
                     </div>
-                    <div class="form-group">
-                        <label for="subject">Subject</label>
-                        <select id="subject" required>
-                            <option value="">Select a subject</option>
-                            <option value="sales">Sales Inquiry</option>
-                            <option value="support">Technical Support</option>
-                            <option value="billing">Billing Question</option>
-                            <option value="feature">Feature Request</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" rows="5" required></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline cancel-contact">Cancel</button>
-                <button class="btn btn-primary send-message">Send Message</button>
-            </div>
-        </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- RIGHT PANEL -->
+            <aside class="details-panel">
+              <div class="details-section">
+                <p class="eyebrow">QUICK ACTIONS</p>
+
+                <button class="tool-button" data-action="overview">
+                  <span>▦</span>
+                  <div>
+                    <strong>View document</strong>
+                    <small>Preview the file</small>
+                  </div>
+                </button>
+
+                <button class="tool-button" data-action="text">
+                  <span>≡</span>
+                  <div>
+                    <strong>Extract text</strong>
+                    <small>Read document contents</small>
+                  </div>
+                </button>
+
+                <button class="tool-button" data-action="search">
+                  <span>⌕</span>
+                  <div>
+                    <strong>Search document</strong>
+                    <small>Find words and phrases</small>
+                  </div>
+                </button>
+
+                <button class="tool-button" data-action="stats">
+                  <span>◫</span>
+                  <div>
+                    <strong>Statistics</strong>
+                    <small>Inspect document data</small>
+                  </div>
+                </button>
+              </div>
+
+              <div class="details-section">
+                <p class="eyebrow">DOCUMENT</p>
+
+                <div class="detail-row">
+                  <span>Name</span>
+                  <strong id="detailName">—</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span>Type</span>
+                  <strong id="detailType">—</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span>Size</span>
+                  <strong id="detailSize">—</strong>
+                </div>
+
+                <div class="detail-row">
+                  <span>Pages</span>
+                  <strong id="detailPages">—</strong>
+                </div>
+              </div>
+
+              <div class="details-section privacy-large">
+                <div class="privacy-icon">●</div>
+
+                <div>
+                  <strong>Private by default</strong>
+
+                  <p>
+                    DocuElevator processes your document inside your browser. No
+                    upload is required.
+                  </p>
+                </div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
     </div>
 
-    <!-- Notifications -->
-    <div id="notification" class="notification">
-        <div class="notification-content">
-            <i class="notification-icon"></i>
-            <p class="notification-message"></p>
-        </div>
-        <button class="notification-close">&times;</button>
+    <!-- TOAST -->
+    <div class="toast" id="toast">
+      <span id="toastMessage">Done</span>
     </div>
-</body>
+
+    <!-- LOADING -->
+    <div class="loading-overlay hidden" id="loadingOverlay">
+      <div class="loader-card">
+        <div class="spinner"></div>
+
+        <strong id="loadingText"> Processing document... </strong>
+
+        <span> Everything is happening locally. </span>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
 </html>
