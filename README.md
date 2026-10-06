@@ -1,64 +1,63 @@
 # DocuElevator
 
-DocuElevator is a lightweight, browser-based utility designed to streamline document management and interaction. Built with a clean separation of concerns, this project provides a responsive interface and robust client-side logic to handle document-related tasks efficiently.
+A lightweight, browser-based utility tool for previewing, processing, converting, and managing documents. Everything is handled fully locally in your browser. 
 
 ## Features
 
-*   **Responsive UI**: Built with semantic HTML5 and modular CSS for a seamless experience across devices.
-*   **Client-Side Logic**: Efficient JavaScript implementation for real-time document processing and interaction.
-*   **Zero-Dependency Architecture**: Designed for high performance and portability without the need for heavy external frameworks.
-*   **Easy Integration**: Simple file structure allows for quick deployment as a static site or integration into existing web projects.
+- PDF preview and page navigation
+- PDF merging
+- Page extraction
+- PDF → TXT
+- Images → PDF
+- Text and image preview
+- Multi-file workspace
+- Document statistics
+- Search
+- Dark mode
+- Drag-and-drop uploads
 
 ## Tech Stack
 
-*   **Languages**: JavaScript (ES6+), HTML5, CSS3
-*   **Architecture**: Vanilla Web Stack
-
-## Getting Started
-
-### Prerequisites
-
-*   A modern web browser (Chrome, Firefox, Safari, or Edge).
-*   No additional runtime environments (like Node.js) are required to run the application, as it is a static web project.
-
-### Installation
-
-1. Clone the repository to your local machine:
-   ```bash
-   git clone https://github.com/harshneyvijay/DocuElevator.git
-   ```
-2. Navigate into the project directory:
-   ```bash
-   cd DocuElevator
-   ```
-
-### Running the Application
-
-Since this is a static web project, you can view the application by opening `index.html` directly in your browser:
-
-```bash
-# Using a terminal (macOS/Linux)
-open index.html
-
-# Using a terminal (Windows)
-start index.html
-```
-
-Alternatively, you can use any local development server (such as the "Live Server" extension in VS Code) to serve the files.
+- HTML5
+- CSS3
+- JavaScript
+- PDF.js
+- PDF-Lib
+- Browser File API
+- Canvas API
+- Local Storage
 
 ## Project Structure
 
 ```text
 DocuElevator/
-├── index.html      # Main entry point and application structure
-├── styles.css      # Styling and responsive layout definitions
-└── script.js       # Core application logic and event handling
+├── index.html
+├── styles.css
+└── script.js
 ```
 
-## Scripts
+## Description
 
-| Command | Description |
-| :--- | :--- |
-| `open index.html` | Launches the application in your default web browser. |
+- DocuElevator is intentionally built as a simple three-file application.
+Document processing happens directly in the browser, keeping the project
+lightweight and avoiding unnecessary backend infrastructure.
 
+- The application provides common document utilities through a single workspace
+while keeping the interface minimal and focused.
 
+## Run Locally
+```
+python -m http.server 5500
+```
+Then open:
+```
+http://localhost:5500
+```
+
+## External Libraries
+
+DocuElevator uses:
+
+- PDF.js for PDF rendering and text extraction
+- PDF-Lib for PDF creation and manipulation
+- 
